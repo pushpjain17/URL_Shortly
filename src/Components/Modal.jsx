@@ -19,12 +19,18 @@ const InputModal = () => {
   const [inputValue, setInputValue] = useState('');
   const [result, setResult] = useState('');
 
- const handleData=()=> { fetch(`https://www.shareaholic.com/v2/share/shorten_link?apikey=8943b7fd64cd8b1770ff5affa9a9437b&url=${inputValue}`)
-  .then(response => response.json())
-  .then(data => {console.log(data)
-  setResult(data.data)
-  })
-  .catch(error => console.error(error));
+//  const handleData=()=> { fetch(`https://www.shareaholic.com/v2/share/shorten_link?apikey=8943b7fd64cd8b1770ff5affa9a9437b&url=${inputValue}`)
+//   .then(response => response.json())
+//   .then(data => {console.log(data)
+//   setResult(data.data)
+//   })
+//   .catch(error => console.error(error));
+// }
+
+const handleData = async ()=> { 
+  let response= await fetch(`https://www.shareaholic.com/v2/share/shorten_link?apikey=8943b7fd64cd8b1770ff5affa9a9437b&url=${inputValue}`)
+  let info =await response.json();
+  setResult(info.data)
 }
 
   // Open/close modal handlers
@@ -42,7 +48,7 @@ const InputModal = () => {
     setResult(inputValue);
     handleClose();
   };
-  
+  // const copyText = (result)=>{navigator.clipboard.writeText(result)}
 
   return (
     <>
@@ -88,7 +94,7 @@ const InputModal = () => {
           <Typography variant="h6" component="p">
             Your Link:<a href={result} target="_blank">{result}</a>
           </Typography>
-          <Button onClick={navigator.clipboard.writeText(result)} variant="contained" color="primary">
+          <Button onClick={()=>navigator.clipboard.writeText(result)} variant="contained" color="primary">
               Copy Link
             </Button>
         </Box>
@@ -101,4 +107,5 @@ export default InputModal;
 
 
   
+
 
